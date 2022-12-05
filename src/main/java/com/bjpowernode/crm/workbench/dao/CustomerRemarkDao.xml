@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bjpowernode.crm.workbench.dao.CustomerRemarkDao">
+
+    <update id="updateRemark">
+
+        update tbl_customer_remark set noteContent=#{noteContent}, editBy=#{editBy}, editTime=#{editTime}, editFlag=#{editFlag}
+
+        where id=#{id}
+
+    </update>
+
+    <delete id="deleteById">
+
+        delete from tbl_customer_remark where id=#{id}
+
+    </delete>
+
+    <insert id="saveRemark">
+
+        insert into tbl_customer_remark(
+
+            id,
+            noteContent,
+            createBy,
+            createTime,
+            editFlag,
+            customerId
+
+        )
+
+        values(
+
+            #{id},
+            #{noteContent},
+            #{createBy},
+            #{createTime},
+            #{editFlag},
+            #{customerId}
+
+        )
+
+    </insert>
+
+    <select id="getRemarkListByCid" resultType="CustomerRemark">
+
+        select
+
+        cr.id,
+        cr.noteContent,
+        cr.createBy,
+        cr.createTime,
+        cr.editBy,
+        cr.editTime,
+        cr.editFlag,
+        cr.customerId,
+        c.fullname,
+        c.appellation
+
+        from tbl_customer_remark cr
+
+        join tbl_contacts c
+
+        on cr.customerId=c.customerId
+
+        where cr.customerId=#{cr.customerId}
+
+        order by cr.createTime asc
+
+    </select>
+
+    <delete id="deleteByCids">
+
+        delete
+
+        from tbl_customer_remark
+
+        where customerId in
+
+        <foreach collection="array" item="cid" open="(" close=")" separator=",">
+
+            #{cid}
+
+        </foreach>
+
+    </delete>
+
+    <select id="getCountByCids" resultType="int">
+
+        select count(*)
+
+        from tbl_customer_remark
+
+        where customerId in
+
+        <foreach collection="array" item="cid" open="(" close=")" separator=",">
+
+            #{cid}
+
+        </foreach>
+
+    </select>
+
+    <insert id="save">
+
+        insert into tbl_customer_remark(
+
+            id,
+            noteContent,
+            createTime,
+            createBy,
+            editFlag,
+            customerId
+
+        )
+
+        values(
+
+            #{id},
+            #{noteContent},
+            #{createTime},
+            #{createBy},
+            #{editFlag},
+            #{customerId}
+
+        )
+
+    </insert>
+  	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
